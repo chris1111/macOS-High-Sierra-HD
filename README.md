@@ -1,1 +1,22 @@
-# macOS-High Sierra-HD
+# macOS High Sierra HD
+
+![Modular Image Creation](https://i.servimg.com/u/f62/18/50/18/69/produc12.png)
+
+### Working inside MacOS 10.13 only! 
+
+### This will Deploy macOS High Sierra on your SSD or HD, APFS or HFS+J
+
+## USAGE: You need Installer macOS High Sierra.app from Mac App Store on your Mac, a SSD OR HD. 
+
+### Credit: Thanks to all testers and particular: Bumbay, arcade33, emax31, dionnode, pixell, ultimalvin
+
+### Credit: Clover Team: Developers: Slice, with help of Kabyl, usr-sse2, jadran, Blackosx, dmazar, STLVNUB, pcj, apianti, JrCs, pene, FrodoKenny, skoczy, ycr.ru, Oscar09, xsmile, SoThOr, rehabman, Download-Fritz, Zenit432, cecekpawon...
+
+
+
+
+Download the latest Release [Download ➤ macOS High Sierra HD.dmg.zip]()
+
+Follow every steps in the Video
+
+[![Modular Image Creation](https://i62.servimg.com/u/f62/18/50/18/69/68747411.png)](https://youtu.be/Djc7jPac66A)
