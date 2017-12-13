@@ -6,6 +6,8 @@
 
 ### This will Deploy macOS High Sierra on your SSD or HD, APFS or HFS+J
 
+### For real Macs, just do not use the Clover Bootloader, as simple as that.
+
 ## USAGE: You need Installer macOS High Sierra.app from Mac App Store on your Mac, a SSD OR HD. 
 
 ### Credit: Thanks to all testers and particular: Bumbay, arcade33, emax31, dionnode, pixell, ultimalvin
