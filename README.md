@@ -15,12 +15,7 @@
 ### Credit: Clover Team: Developers: Slice, with help of Kabyl, usr-sse2, jadran, Blackosx, dmazar, STLVNUB, pcj, apianti, JrCs, pene, FrodoKenny, skoczy, ycr.ru, Oscar09, xsmile, SoThOr, rehabman, Download-Fritz, Zenit432, cecekpawon...
 
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 29d42cab752c15bf078ba10f28dd15ea3063351f
-Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
+### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
 
 Follow every steps in the Video
 
