@@ -16,8 +16,7 @@
 
 
 
-
-Download the latest Release [Download ➤ macOS High Sierra HD.dmg.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases/tag/V1)
+Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
 
 Follow every steps in the Video
 
