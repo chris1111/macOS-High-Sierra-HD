@@ -16,15 +16,12 @@
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 29d42cab752c15bf078ba10f28dd15ea3063351f
-Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
-
-Follow every steps in the Video
-
-### Note: The download of Recovery HD is no longer necessary, all done by the program.
+### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
 
 
-[![Modular Image Creation](https://i62.servimg.com/u/f62/18/50/18/69/68747411.png)](https://youtu.be/Djc7jPac66A)
+
+### Note: With the V2 the download of Recovery HD is no longer necessary, all done by the program.
+
+### Follow every steps in the Video
+
+[![Modular Image Creation](https://i62.servimg.com/u/f62/18/50/18/69/68747411.png)](https://youtu.be/oPhNWI2B-Uw)
