@@ -1,4 +1,5 @@
 #!/bin/bash
-# macOS High Sierra HD APFS.
+# macOS High Sierra HD
 # Copyright (c) 2017, Chris1111 <leblond1111@gmail.com> 
 ./Installer-HD.sh
+./RecoveryHD.sh

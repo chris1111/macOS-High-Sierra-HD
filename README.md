@@ -21,4 +21,7 @@ Download the latest Release [Download ➤ macOS High Sierra HD.dmg.zip](https://
 
 Follow every steps in the Video
 
+### Note: The download of Recovery HD is no longer necessary, all done by the program.
+
+
 [![Modular Image Creation](https://i62.servimg.com/u/f62/18/50/18/69/68747411.png)](https://youtu.be/Djc7jPac66A)

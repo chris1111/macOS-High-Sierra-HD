@@ -14,9 +14,25 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+# Remove the image if exist
+
+if [[ $(mount | awk '$3 == "/Volumes/RecoveryHDMeta" {print $3}') != "" ]]; then
+ hdiutil detach "/Volumes/RecoveryHDMeta"
+fi
+
+if [ "/tmp/RecoveryHDMeta.sparseimage" ]; then
+	rm -rf "/tmp/RecoveryHDMeta.sparseimage"
+fi
+
+if [ "/tmp/RecoveryHDMeta.dmg" ]; then
+	rm -rf "/tmp/RecoveryHDMeta.dmg"
+fi
+
+
 if [[ $(mount | awk '$3 == "/Volumes/High-Sierra-HD" {print $3}') != "" ]]; then
  /usr/sbin/diskutil rename "/Volumes/High-Sierra-HD" "HighSierra-HD"
 fi
+
 
 # Vars
 apptitle="macOS High Sierra HD"
@@ -52,7 +68,6 @@ hdiutil attach "$imagepath"/Contents/SharedSupport/InstallESD.dmg -noverify -nob
 
 hdiutil attach "$imagepath"/Contents/SharedSupport/BaseSystem.dmg -noverify -nobrowse -mountpoint /tmp/Base-OS
 
-echo " "
 
 echo "
 ***********************************************************
@@ -66,57 +81,41 @@ osascript ./Scripts/OSINSTALL.app
 
 echo " "
 rsync -a --progress "/tmp/Base-OS/System/Library/CoreServices/boot.efi" "/Volumes/High-Sierra-HD/System/Library/CoreServices"
+Sleep 2
 
-osascript -e 'tell app "System Events" to display dialog "
-Download Recovery HD procedure from the Apple server
-Be patient during Downloads!" with icon file "System:Library:CoreServices:CoreTypes.bundle:Contents:Resources:FinderIcon.icns" buttons {"OK"} default button 1 with title "RecoveryHD"'
-echo " "
-
-echo " "
-
-osascript -e 'display notification "Starting" with title "macOS High Sierra HD"  sound name "default"'
-echo "  "
 echo "
 ***********************************************************
-Downloads macOS High Sierra Recovery HD
-Be patient during Downloads, the window
-installation of the program will open at the end.
+Creation macOS High Sierra Recovery HD
+***********************************************************  "
+rsync -a --progress ./Tools /tmp
+
+# Create the Recovery HD for HFS+J/APFS
+hdiutil create -size 600m -type SPARSE -fs HFS+J -volname RecoveryHDMeta -uid 0 -gid 80 -mode 1775 /tmp/RecoveryHDMeta
+
+# Mount the image
+hdiutil attach -nobrowse /tmp/RecoveryHDMeta.sparseimage
+
+
+rsync -a --progress "$imagepath/Contents/SharedSupport/BaseSystem.dmg" "/Volumes/RecoveryHDMeta"
+rsync -a --progress "$imagepath/Contents/SharedSupport/AppleDiagnostics.chunklist" "/Volumes/RecoveryHDMeta"
+rsync -a --progress "$imagepath/Contents/SharedSupport/BaseSystem.chunklist" "/Volumes/RecoveryHDMeta"
+rsync -a --progress "$imagepath/Contents/SharedSupport/AppleDiagnostics.dmg" "/Volumes/RecoveryHDMeta"
+Sleep 2
+
+
+echo "
+***********************************************************
+Installation Recovery HD
 ***********************************************************  "
 
-# Downloads Recovery HD
-curl -L http://swcdn.apple.com/content/downloads/01/50/091-52054/sxphm0npb8edfz2wqnulli6pd0pcripw2s/macOSUpdCombo10.13.2ForSeed.RecoveryHDUpdate.pkg -o /tmp/RecoveryHD.pkg
+# unmount the Image
+hdiutil detach -Force /Volumes/RecoveryHDMeta
 
-echo " "
-echo " 
-Install Recovery HD ➤ Volumes / High-Sierra-HD
-approximate duration 15 seconds . . . . 
-********************************************** "
-osascript -e 'tell app "System Events" to display dialog "
-Install Recovery HD ➤ Volumes/High-Sierra-HD " with icon file "System:Library:CoreServices:CoreTypes.bundle:Contents:Resources:FinderIcon.icns" buttons {"OK"} default button 1 with title "Recovery HD"' 
-
-Sleep 2
-# run the pkg
-osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg /tmp/RecoveryHD.pkg -target /Volumes/High-Sierra-HD" with administrator privileges'
-
-
-# script Notifications
-osascript -e 'display notification "Completed" with title "Installation Recovery HD"  sound name "default"'
-Sleep 2
+# convert the Image
+hdiutil convert /tmp/RecoveryHDMeta.sparseimage -format UDZO -o /tmp/RecoveryHDMeta.dmg
 
 # Unmount the dmg image
 hdiutil detach -Force /tmp/Installer-OS
 
 # Unmount the dmg image
 hdiutil detach -Force /tmp/Base-OS
-
-# Remove package Recovery HD
-rm -r /tmp/RecoveryHD.pkg
-
-
-echo "  "
-echo "
-***********************************************************
-Installation macOS High Sierra HD Completed.
-Enjoy! "
-echo "***********************************************************  "
-echo "  "
