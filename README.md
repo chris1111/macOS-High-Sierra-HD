@@ -16,11 +16,7 @@
 
 
 
-<<<<<<< HEAD
 ### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V4.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
-=======
-### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V3.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
->>>>>>> 906fd1559a53a60fe74dd6630e57e5e28b966d87
 
 
 
