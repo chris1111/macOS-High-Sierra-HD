@@ -16,11 +16,11 @@
 
 
 
-### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V2.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
+### Download the latest Release [Download ➤ macOS High Sierra HD.dmg-V4.zip](https://github.com/chris1111/macOS-High-Sierra-HD/releases)
 
 
 
-### Note: With the V2 the download of Recovery HD is no longer necessary, all done by the program.
+### Note: With the V3 and V4 the download of Recovery HD is no longer necessary, all done by the program.
 
 ### Follow every steps in the Video
 

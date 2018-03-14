@@ -79,15 +79,10 @@ echo "
 ***********************************************************  "
 osascript ./Scripts/OSINSTALL.app
 
-echo " "
-rsync -a --progress "/tmp/Base-OS/System/Library/CoreServices/boot.efi" "/Volumes/High-Sierra-HD/System/Library/CoreServices"
-Sleep 2
-
 echo "
 ***********************************************************
-Creation macOS High Sierra Recovery HD
+Creation Recovery HD
 ***********************************************************  "
-rsync -a --progress ./Tools /tmp
 
 # Create the Recovery HD for HFS+J/APFS
 hdiutil create -size 600m -type SPARSE -fs HFS+J -volname RecoveryHDMeta -uid 0 -gid 80 -mode 1775 /tmp/RecoveryHDMeta
@@ -96,26 +91,19 @@ hdiutil create -size 600m -type SPARSE -fs HFS+J -volname RecoveryHDMeta -uid 0 
 hdiutil attach -nobrowse /tmp/RecoveryHDMeta.sparseimage
 
 
-rsync -a --progress "$imagepath/Contents/SharedSupport/BaseSystem.dmg" "/Volumes/RecoveryHDMeta"
-rsync -a --progress "$imagepath/Contents/SharedSupport/AppleDiagnostics.chunklist" "/Volumes/RecoveryHDMeta"
-rsync -a --progress "$imagepath/Contents/SharedSupport/BaseSystem.chunklist" "/Volumes/RecoveryHDMeta"
-rsync -a --progress "$imagepath/Contents/SharedSupport/AppleDiagnostics.dmg" "/Volumes/RecoveryHDMeta"
+cp -R "$imagepath/Contents/SharedSupport/BaseSystem.dmg" "/Volumes/RecoveryHDMeta"
+cp -R "$imagepath/Contents/SharedSupport/AppleDiagnostics.chunklist" "/Volumes/RecoveryHDMeta"
+cp -R "$imagepath/Contents/SharedSupport/BaseSystem.chunklist" "/Volumes/RecoveryHDMeta"
+cp -R "$imagepath/Contents/SharedSupport/AppleDiagnostics.dmg" "/Volumes/RecoveryHDMeta"
 Sleep 2
 
+osascript -e 'do shell script "installer -allowUntrusted -verboseR -pkg ./Scripts/RecoveryHDPartition.pkg -target /Volumes/High-Sierra-HD" with administrator privileges'
 
+
+echo "  "
 echo "
 ***********************************************************
-Installation Recovery HD
+=== Installation macOS High Sierra HD Completed ===
+
 ***********************************************************  "
-
-# unmount the Image
-hdiutil detach -Force /Volumes/RecoveryHDMeta
-
-# convert the Image
-hdiutil convert /tmp/RecoveryHDMeta.sparseimage -format UDZO -o /tmp/RecoveryHDMeta.dmg
-
-# Unmount the dmg image
-hdiutil detach -Force /tmp/Installer-OS
-
-# Unmount the dmg image
-hdiutil detach -Force /tmp/Base-OS
+echo "  "

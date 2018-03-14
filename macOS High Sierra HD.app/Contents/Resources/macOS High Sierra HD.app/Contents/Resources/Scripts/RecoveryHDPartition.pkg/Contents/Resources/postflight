@@ -1,0 +1,71 @@
+#!/bin/bash
+# Recovery HD partition 
+# Copyright (c) 2017, Chris1111 <leblond1111@gmail.com>
+# dm Tools Copyright (c) 2017, Apple <www.apple.com.> 
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# Vars
+PKGPATH=$1
+DM="$PKGPATH/Contents/Resources/dm"
+TARGET="${3}"
+
+# Unmount Image
+hdiutil detach -Force /Volumes/RecoveryHDMeta
+
+# Convert Image
+hdiutil convert /tmp/RecoveryHDMeta.sparseimage -format UDZO -o /tmp/RecoveryHDMeta.dmg
+
+# Unmount image
+hdiutil detach -Force /tmp/Installer-OS
+
+echo " "
+rsync -a --progress "/tmp/Base-OS/System/Library/CoreServices/boot.efi" "/Volumes/High-Sierra-HD/System/Library/CoreServices"
+
+# Unmount image
+hdiutil detach -Force /tmp/Base-OS
+
+MOUNT_POINT="$(/usr/bin/mktemp -d)"
+/usr/bin/hdiutil attach -nobrowse /tmp/RecoveryHDMeta.dmg -mountpoint "${MOUNT_POINT}"
+echo "Probing Target Volume: ${TARGET}"
+
+FS_TYPE=$(diskutil info "${TARGET}" | awk '$1 == "Type" { print $NF }')
+echo "Target Volume FS: ${FS_TYPE}"
+if [[ "${FS_TYPE}" == "apfs" ]]; then
+    echo "Running ensureRecoveryBooter for APFS target volume: ${TARGET}"
+    "$DM" ensureRecoveryBooter "${TARGET}" -base "${MOUNT_POINT}/BaseSystem.dmg" "${MOUNT_POINT}/BaseSystem.chunklist" -diag "${MOUNT_POINT}/AppleDiagnostics.dmg" "${MOUNT_POINT}/AppleDiagnostics.chunklist" -diagmachineblacklist 0 -installbootfromtarget 0 -slurpappleboot 0 -delappleboot 0 -addkernelcoredump 0
+else
+    echo "Running ensureRecoveryPartition for Non-APFS target volume: ${TARGET}"
+    "$DM" ensureRecoveryPartition "${TARGET}" "${MOUNT_POINT}/BaseSystem.dmg" "${MOUNT_POINT}/BaseSystem.chunklist" "${MOUNT_POINT}/AppleDiagnostics.dmg" "${MOUNT_POINT}/AppleDiagnostics.chunklist" 0 0 0
+fi
+
+echo "Eject ${MOUNT_POINT}"
+/usr/bin/hdiutil eject "${MOUNT_POINT}"
+echo "Delete ${MOUNT_POINT}"
+/bin/rm -rf "${MOUNT_POINT}"
+
+
+if [ "/tmp/RecoveryHDMeta.sparseimage" ]; then
+	rm -rf "/tmp/RecoveryHDMeta.sparseimage"
+fi
+
+
+if [ "/tmp/RecoveryHDMeta.dmg" ]; then
+	rm -rf "/tmp/RecoveryHDMeta.dmg"
+fi
+
+echo "
+***********************************************************  "
+
+# script Notifications
+osascript -e 'display notification "compléter" with title "Installation" '
+
