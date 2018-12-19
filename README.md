@@ -1,4 +1,7 @@
 # macOS High Sierra HD
+- This is to test macOS
+- Buy a mac after testing macOS
+
 
 ![Modular Image Creation](https://i.servimg.com/u/f62/18/50/18/69/produc12.png)
 
